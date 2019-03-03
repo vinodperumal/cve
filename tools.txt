@@ -1,0 +1,47 @@
+priyam
+
+1.	PyCharm
+2.	Notpad ++
+3.	Node Js
+4.	Python
+5.	WebSphere
+6.	Selenium Webdriver
+7.	ChroPath (for Chrome xPath extract)
+8.	Jenkins
+9.	TestNG (this is a framework installed within Websphere)
+10.	UFT
+11.	RFT
+12.	TestingWhiz
+13.	Ranorex
+14.	Soap UI
+15.	RestAssured (this is a framework installed within Websphere)
+16.	Postman.
+
+
+sreejit
+
+SqlDeveloper
+Notepad++
+XMLSpy
+Dynatrace
+VMWare Workstation Player 12
+7-zip
+Eclipse
+JD-gui
+WICleanup
+SoapUI v5.4.0
+IBM Integration Designer v8.5.5
+GIT v2.1.9.1
+TortoiseGit v2.8.0.0
+Ant
+Putty
+TreeFreeSize
+
+Suthan
+
+1.	Visual studio code
+2.	Intelli 
+3.	Node Js
+4.	Selenium
+5.	Cucumber
+6.	GIT Kraken
