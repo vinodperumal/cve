@@ -8,6 +8,16 @@ switch(Chosenoption) {
 	document.getElementById('OneProductOneVendor').style.display = 'block';
 	document.getElementById('AllProductsOneVendor').style.display = 'none';
 	document.getElementById('SearchWithCVEID').style.display = 'none';
+	document.getElementById('DescCard').style.display = 'none';
+	document.getElementById('OptionsList').style.display = 'none';
+	document.getElementById('Aboutinfobutton').style.display = 'none';
+	document.getElementById('showData').value = null;
+	document.getElementById('showData2').value = null;
+	document.getElementById('showData3').value = null;
+	document.getElementById('VendorName-input').value = null;
+	document.getElementById('vendor-name-input').value = null;
+	document.getElementById('product-name-input').value = null;
+	document.getElementById('CVEID-input').value = null;
     	break;
 
   case 'SearchWithCVEID':
@@ -15,6 +25,17 @@ switch(Chosenoption) {
 	document.getElementById('SearchWithCVEID').style.display = 'block';
 	document.getElementById('OneProductOneVendor').style.display = 'none';
 	document.getElementById('AllProductsOneVendor').style.display = 'none';
+	document.getElementById('DescCard').style.display = 'none';
+	document.getElementById('OptionsList').style.display = 'none';
+	document.getElementById('showData').value = null;
+	document.getElementById('showData2').value = null;
+	document.getElementById('showData3').value = null;
+	document.getElementById('VendorName-input').value = null;
+	document.getElementById('vendor-name-input').value = null;
+	document.getElementById('product-name-input').value = null;
+	document.getElementById('CVEID-input').value = null;
+	document.getElementById('Aboutinfobutton').style.display = 'none';
+
     	break;
 
   case 'AllProductsOneVendor':
@@ -22,6 +43,18 @@ switch(Chosenoption) {
 	document.getElementById('AllProductsOneVendor').style.display = 'block';
 	document.getElementById('OneProductOneVendor').style.display = 'none';
 	document.getElementById('SearchWithCVEID').style.display = 'none';
+	document.getElementById('DescCard').style.display = 'none';
+	document.getElementById('OptionsList').style.display = 'none';
+	document.getElementById('showData').value = null;
+	document.getElementById('showData2').value = null;
+	document.getElementById('showData3').value = null;
+	document.getElementById('VendorName-input').value = null;
+	document.getElementById('vendor-name-input').value = null;
+	document.getElementById('product-name-input').value = null;
+	document.getElementById('CVEID-input').value = null;
+	document.getElementById('Aboutinfobutton').style.display = 'none';
+
+
     	break;
 
   default:
@@ -41,22 +74,35 @@ switch(Chosenoption) {
     	// code block
 	var vendorname = document.getElementById('vendor-name-input').value;
 	var productname = document.getElementById('product-name-input').value;
+	if(vendorname.length != 0 && productname.length != 0){
 	var apiurl = 'https://cve.circl.lu/api/search/';
 	var newapiurl = apiurl.concat(vendorname,'/',productname);
+	}else{
+	document.getElementById('vendor-name-input').value = 'Enter valid input';
+	document.getElementById('product-name-input').value = 'Enter valid input';
+	}	
     	break;
 
   case 'SearchWithCVEID':
     	// code block
-	var cveidinput = document.getElementById('CVEID-input').value;    	
+	var cveidinput = document.getElementById('CVEID-input').value; 
+	if(cveidinput.length != 0){   	
 	var apiurl = 'https://cve.circl.lu/api/cve/';
 	var newapiurl = apiurl.concat(cveidinput);
+	}else{
+	document.getElementById('CVEID-input').value = 'Enter valid input';
+	}	 
     	break;
 
   case 'AllProductsOneVendor':
     	// code block
-	var vendornameonly = document.getElementById('VendorName-input').value;    	
+	var vendornameonly = document.getElementById('VendorName-input').value; 
+	if(vendornameonly.length != 0){   	
 	var apiurl = 'https://cve.circl.lu/api/browse/';
 	var newapiurl = apiurl.concat(vendornameonly);
+	}else{
+	document.getElementById('VendorName-input').value = 'Enter valid input';
+	} 
     	break;
   
   default:
@@ -85,7 +131,7 @@ function updateProgress (oEvent) {
     var percentComplete = oEvent.loaded / oEvent.total * 100;
     elem.style.width = percentComplete + '%' ;
   } else {
-    // Unable to compute progress information since the total size is unknown
+    console.log('Unable to compute progress information since the total size is unknown');
   }
 }
 function transferComplete(evt) {
@@ -103,6 +149,14 @@ request.onload = function () {
 // Begin accessing JSON data here
 var data = JSON.parse(this.response);
 console.log(data.length);
+if (data.length == 0) {
+document.getElementById("vendor-name-input").value = ' O records found';
+document.getElementById("product-name-input").value = ' O records found';
+}else{
+document.getElementById("vendor-name-input").value = data.length + ' records found';
+document.getElementById("product-name-input").value = data.length + ' records found';
+}
+//document.getElementById("RecordCount").value = data.length; 
 if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
 
         var CVEIDtable = document.createElement("table");
@@ -129,7 +183,7 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
  
 
 } else if(Chosenoption == 'AllProductsOneVendor'){
-
+	var productsfound = 0;
 	for (y in data) {
 
 	// Make a container element for the list
@@ -147,6 +201,7 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
 
     	// Set up a loop that goes through the items in listItems one at a time
     	var numberOfListItems = data[y].length;
+	
 
     	for (var i = 0; i < numberOfListItems; ++i) {
         
@@ -157,8 +212,10 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
         	// Add the item text
 		if(typeof data[y] != 'string'){
         	listItem.innerHTML = data[y][i];
+		productsfound = productsfound + 1;
+		
 		}else{
-		listItem.innerHTML = data[y];
+		//listItem.innerHTML = data[y];
 		i = numberOfListItems;
 		}
 		
@@ -166,6 +223,9 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
         	listElement.appendChild(listItem);
 	}
 	}
+	console.log(productsfound);	
+	var resulttext = 'Result: ';
+	document.getElementById("VendorName-input").value = resulttext.concat(productsfound , ' records found');
 
 } else {
 

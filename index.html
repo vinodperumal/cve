@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Am i Vulnerable?</title>
+<title>Do i know you?</title>
 <script src="script.js"></script>
 <meta charset="utf-8"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
+<input type="button" value="Home" onClick="window.location.reload()" class="float-right">
+<input type="button" value="About" onclick="location.href='https://www.circl.lu/mission/';" class="float-left" id="Aboutinfobutton">
+<div class="card" style="width: 75rem;margin-right: auto; margin-left: auto;" id="DescCard">
+  <img class="card-img-top" src="CVE-carousel.jpg" alt="Card image cap">
+</div>
 
 <div class="list-group" id="OptionsList">
   <a href="#" class="list-group-item list-group-item-action active">
@@ -15,6 +20,7 @@
   <a href="#" class="list-group-item list-group-item-action" onclick="ShowTheRightBlock('SearchWithCVEID')">Search with CVE-ID</a>
   <a href="#" class="list-group-item list-group-item-action" onclick="ShowTheRightBlock('AllProductsOneVendor')">Browse all products from one vendor</a>
   <a href="#" class="list-group-item list-group-item-action" onclick="ShowTheRightBlock('OneProductOneVendor')">Search one product from one vendor</a>
+  <a href="popular.html" class="list-group-item list-group-item-action" >Common tools</a>
 </div>
 
 <div id="OneProductOneVendor" style="display:none">
@@ -54,7 +60,7 @@
 	</div>
 
 	<input type="button" onclick="CreateTableFromJSON('SearchWithCVEID')" value="GET"/>
-    		<p id="showData3"></p>
+    	<p id="showData3"></p>
 </div>
 
 <div id="AllProductsOneVendor" style="display:none">
@@ -70,7 +76,11 @@
 	</div>
 
 	<input type="button" onclick="CreateTableFromJSON('AllProductsOneVendor')" value="GET"/>
-    		<p id="showData2"></p>
+	<p id="showData2"></p>
+	
+</div>
+
+
 </div>
 </body>
 </html> 
