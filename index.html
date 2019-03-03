@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Am i Vulnerable?</title>
+<script src="script.js"></script>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="list-group" id="OptionsList">
+  <a href="#" class="list-group-item list-group-item-action active">
+    Options
+  </a>
+  <a href="#" class="list-group-item list-group-item-action" onclick="ShowTheRightBlock('SearchWithCVEID')">Search with CVE-ID</a>
+  <a href="#" class="list-group-item list-group-item-action" onclick="ShowTheRightBlock('AllProductsOneVendor')">Browse all products from one vendor</a>
+  <a href="#" class="list-group-item list-group-item-action" onclick="ShowTheRightBlock('OneProductOneVendor')">Search one product from one vendor</a>
+</div>
+
+<div id="OneProductOneVendor" style="display:none">
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+    			<span class="input-group-text" id="inputGroup-sizing-default">Vendor</span>
+    		</div>
+  		<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="vendor-name-input">
+	</div>
+
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+    			<span class="input-group-text" id="inputGroup-sizing-default">Product</span>
+  		</div>
+  		<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="product-name-input">
+	</div>
+
+	<div class="progress">
+  		<div class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" id="progress-bar"></div>
+	</div>
+
+	<input type="button" onclick="CreateTableFromJSON('OneProductOneVendor')" value="GET"/>
+    		<p id="showData"></p>
+</div>
+
+
+<div id="SearchWithCVEID" style="display:none">
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+    			<span class="input-group-text" id="inputGroup-sizing-default">CVE-ID</span>
+    		</div>
+  		<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="CVEID-input">
+	</div>
+
+	<div class="progress">
+  		<div class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" id="progress-bar"></div>
+	</div>
+
+	<input type="button" onclick="CreateTableFromJSON('SearchWithCVEID')" value="GET"/>
+    		<p id="showData3"></p>
+</div>
+
+<div id="AllProductsOneVendor" style="display:none">
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+    			<span class="input-group-text" id="inputGroup-sizing-default">VendorName</span>
+    		</div>
+  		<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="VendorName-input">
+	</div>
+
+	<div class="progress">
+  		<div class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" id="progress-bar"></div>
+	</div>
+
+	<input type="button" onclick="CreateTableFromJSON('AllProductsOneVendor')" value="GET"/>
+    		<p id="showData2"></p>
+</div>
+</body>
+</html> 
