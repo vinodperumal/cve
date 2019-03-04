@@ -1,3 +1,7 @@
+//global variable declaration
+var globalvendorname = '';
+var globalproductname = '';
+
 function ShowTheRightBlock(Chosenoption) {
 
 console.log(Chosenoption);
@@ -195,6 +199,8 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
     	// Make the list
     	var listElement = document.createElement('ul');
 	listElement.setAttribute('class', 'list-group');
+	listElement.setAttribute('display', 'block');
+	listElement.setAttribute('id', 'ProductsList');
 
     	// Add it to the page
     	listContainer.appendChild(listElement);
@@ -206,12 +212,17 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
     	for (var i = 0; i < numberOfListItems; ++i) {
         
 		// create an item for each one
-        	var listItem = document.createElement('li');
-		listItem.setAttribute('class', 'list-group-item');
-
+        	var listItem = document.createElement('button');
+		listItem.setAttribute('type', 'button');
+		listItem.setAttribute('class', 'list-group-item list-group-item-action');
+		
         	// Add the item text
 		if(typeof data[y] != 'string'){
         	listItem.innerHTML = data[y][i];
+		globalvendorname = vendornameonly
+		listItem.setAttribute('value', data[y][i]);
+		listItem.setAttribute('onclick', 'CallOneProductOneVendor(globalvendorname,this.value)');
+
 		productsfound = productsfound + 1;
 		
 		}else{
@@ -276,4 +287,18 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
 
 request.send();
 
+}
+function CallOneProductOneVendor(vendorname,productname){
+
+document.getElementById('ProductsList').style.display = 'none';
+console.log('old elements hidden');
+console.log('One product one vendor called');
+console.log(vendorname);
+console.log(productname);
+ShowTheRightBlock('OneProductOneVendor');
+document.getElementById('vendor-name-input').value = vendorname;
+document.getElementById('product-name-input').value = productname;
+var globalvendorname = '';
+var globalproductname = '';
+CreateTableFromJSON('OneProductOneVendor'); 
 }
