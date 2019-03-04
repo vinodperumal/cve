@@ -100,6 +100,11 @@ switch(Chosenoption) {
 	if(vendorname.length != 0 && productname.length != 0){
 	var apiurl = 'https://cve.circl.lu/api/search/';
 	var newapiurl = apiurl.concat(vendorname,'/',productname);
+	}else if (vendorname.length == 0){
+	
+	var apiurl = 'https://cve.circl.lu/api/search/';
+	var newapiurl = apiurl.concat(productname);	
+	document.getElementById('vendor-name-input').value = 'Getting all vendors for this product';
 	}else{
 	document.getElementById('vendor-name-input').value = 'Enter valid input';
 	document.getElementById('product-name-input').value = 'Enter valid input';
@@ -152,6 +157,7 @@ request.addEventListener("abort", transferCanceled);
 console.log(newapiurl);
 
 request.open('GET', newapiurl, true);
+request.send(null);
 
 // progress on transfers from the server to the client (downloads)
 function updateProgress (oEvent) {
@@ -176,17 +182,11 @@ request.onload = function () {
 
 // Begin accessing JSON data here
 var data = JSON.parse(this.response);
-console.log(data.length);
-if (data.length == 0) {
-document.getElementById("vendor-name-input").value = ' O records found';
-document.getElementById("product-name-input").value = ' O records found';
-}else{
-document.getElementById("vendor-name-input").value = data.length + ' records found';
-document.getElementById("product-name-input").value = data.length + ' records found';
-}
-//document.getElementById("RecordCount").value = data.length; 
-if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
+//console.log(data.length);
 
+if (data.length == undefined && Chosenoption == 'SearchWithCVEID' || data.length == undefined &&  Chosenoption == 'OneProductOneVendor')	{
+
+	console.log(data.length,Chosenoption);
         var CVEIDtable = document.createElement("table");
 	CVEIDtable.setAttribute('class', 'table table-dark');
 	var colnames = ["Modified", "Published", "Summary"];
@@ -196,6 +196,9 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
             th.innerHTML = colnames[i];
             tr.appendChild(th);
         }
+
+
+	if (Chosenoption == 'SearchWithCVEID'){ 
 	var tr = CVEIDtable.insertRow(-1); 
 	var tabCell2 = tr.insertCell(-1);
         tabCell2.innerHTML = data.Modified;
@@ -203,7 +206,19 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
         tabCell3.innerHTML = data.Published;
 	var tabCell4 = tr.insertCell(1);
         tabCell4.innerHTML = data.summary;
-
+	}else{
+	for (i in data.data){
+	console.log(data.data[i]);
+	var tr = CVEIDtable.insertRow(i-1); 
+	var tabCell2 = tr.insertCell(-1);
+        tabCell2.innerHTML = data.data[i].Modified;
+	var tabCell3 = tr.insertCell(0);
+        tabCell3.innerHTML = data.data[i].Published;
+	var tabCell4 = tr.insertCell(1);
+        tabCell4.innerHTML = data.data[i].summary;
+	}
+	}
+	
 	// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
         var divContainer = document.getElementById("showData3");
         divContainer.innerHTML = "";
@@ -260,7 +275,7 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
 	}
 	console.log(productsfound);	
 	var resulttext = 'Result: ';
-	document.getElementById("VendorName-input").value = resulttext.concat(productsfound , ' records found');
+	document.getElementById("VendorName-input").value = resulttext.concat(productsfound , ' products found');
 
 } else if(Chosenoption == 'AllVendors') { 
 
@@ -302,6 +317,13 @@ console.log(vendorarray.length);
 
 } else {
 
+if (data.length == 0) {
+document.getElementById("vendor-name-input").value = ' O records found';
+document.getElementById("product-name-input").value = ' O records found';
+}else{
+document.getElementById("vendor-name-input").value = data.length + ' records found';
+document.getElementById("product-name-input").value = data.length + ' records found';
+}
 
 // EXTRACT VALUE FOR HTML HEADER. 
         var col = [];
@@ -347,7 +369,7 @@ console.log(vendorarray.length);
 }	
 }
 
-request.send();
+//request.send();
 
 }
 function CallOneProductOneVendor(vendorname,productname){
