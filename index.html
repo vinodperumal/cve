@@ -17,9 +17,10 @@
   <a href="#" class="list-group-item list-group-item-action active">
     Options
   </a>
-  <a href="#" class="list-group-item list-group-item-action" onclick="ShowTheRightBlock('SearchWithCVEID')">Search with CVE-ID</a>
+  <a href="#" class="list-group-item list-group-item-action" onclick="ShowTheRightBlock('AllVendors')">Browse all vendors</a>
   <a href="#" class="list-group-item list-group-item-action" onclick="ShowTheRightBlock('AllProductsOneVendor')">Browse all products from one vendor</a>
   <a href="#" class="list-group-item list-group-item-action" onclick="ShowTheRightBlock('OneProductOneVendor')">Search one product from one vendor</a>
+  <a href="#" class="list-group-item list-group-item-action" onclick="ShowTheRightBlock('SearchWithCVEID')">Search with CVE-ID</a>	
   <a href="popular.html" class="list-group-item list-group-item-action" >Common tools</a>
 </div>
 
@@ -80,7 +81,9 @@
 	
 </div>
 
-
+<div id="AllVendors" style="display:none">
+	<p id="showData4"></p>
+</div>
 </div>
 </body>
 </html> 

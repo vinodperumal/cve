@@ -1,6 +1,5 @@
 //global variable declaration
 var globalvendorname = '';
-var globalproductname = '';
 
 function ShowTheRightBlock(Chosenoption) {
 
@@ -61,6 +60,26 @@ switch(Chosenoption) {
 
     	break;
 
+  case 'AllVendors':
+    	// code block
+	document.getElementById('AllVendors').style.display = 'block';
+	document.getElementById('AllProductsOneVendor').style.display = 'none';
+	document.getElementById('OneProductOneVendor').style.display = 'none';
+	document.getElementById('SearchWithCVEID').style.display = 'none';
+	document.getElementById('DescCard').style.display = 'none';
+	document.getElementById('OptionsList').style.display = 'none';
+	document.getElementById('showData').value = null;
+	document.getElementById('showData2').value = null;
+	document.getElementById('showData3').value = null;
+	document.getElementById('VendorName-input').value = null;
+	document.getElementById('vendor-name-input').value = null;
+	document.getElementById('product-name-input').value = null;
+	document.getElementById('CVEID-input').value = null;
+	document.getElementById('Aboutinfobutton').style.display = 'none';
+	CreateTableFromJSON('AllVendors');
+
+    	break;
+
   default:
     // code block
     console.log('Defaultvalue');
@@ -107,6 +126,11 @@ switch(Chosenoption) {
 	}else{
 	document.getElementById('VendorName-input').value = 'Enter valid input';
 	} 
+    	break;
+
+  case 'AllVendors':
+    	// code block
+	var newapiurl = 'https://cve.circl.lu/api/browse/';
     	break;
   
   default:
@@ -238,6 +262,44 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID')	{
 	var resulttext = 'Result: ';
 	document.getElementById("VendorName-input").value = resulttext.concat(productsfound , ' records found');
 
+} else if(Chosenoption == 'AllVendors') { 
+
+var vendorarray = data.vendor;
+console.log(vendorarray.length);
+
+	// Make a container element for the list
+    	var listContainer = document.createElement('div');
+
+    	// Add it to the page
+    	document.getElementsByTagName('body')[0].appendChild(listContainer);
+
+    	// Make the list
+    	var listElement = document.createElement('ul');
+	listElement.setAttribute('class', 'list-group');
+	listElement.setAttribute('display', 'block');
+	listElement.setAttribute('id', 'VendorsList');
+
+    	// Add it to the page
+    	listContainer.appendChild(listElement);
+
+
+    	for (var i = 0; i < vendorarray.length; ++i) {
+        
+		// create an item for each one
+        	var listItem = document.createElement('button');
+		listItem.setAttribute('type', 'button');
+		listItem.setAttribute('class', 'list-group-item list-group-item-action');
+		
+        	// Add the item text
+        	listItem.innerHTML = vendorarray[i];
+		listItem.setAttribute('value', vendorarray[i]);
+		listItem.setAttribute('onclick', 'CallAllProductOneVendor(this.value)');
+
+        	// Add listItem to the listElement
+        	listElement.appendChild(listItem);
+	}
+
+
 } else {
 
 
@@ -301,4 +363,15 @@ document.getElementById('product-name-input').value = productname;
 var globalvendorname = '';
 var globalproductname = '';
 CreateTableFromJSON('OneProductOneVendor'); 
+}
+
+
+function CallAllProductOneVendor(vendorname){
+document.getElementById('VendorsList').style.display = 'none';
+console.log('old elements hidden');
+console.log('All product one vendor called');
+console.log(vendorname);
+ShowTheRightBlock('AllProductsOneVendor');
+document.getElementById('VendorName-input').value = vendorname;
+CreateTableFromJSON('AllProductsOneVendor'); 
 }
