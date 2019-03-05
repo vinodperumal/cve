@@ -1,12 +1,11 @@
 //global variable declaration
 var globalvendorname = '';
-var functioncallcount = 0;
 
-function ShowTheRightBlock(Chosenoption) {//open function show the right block
+function ShowTheRightBlock(Chosenoption) {
 
 console.log(Chosenoption);
 
-switch(Chosenoption) {//openswitch
+switch(Chosenoption) {
   case 'OneProductOneVendor':
     	// code block
 	document.getElementById('OneProductOneVendor').style.display = 'block';
@@ -52,6 +51,7 @@ switch(Chosenoption) {//openswitch
 	document.getElementById('CVEID-input').value = null;
 	document.getElementById('Aboutinfobutton').style.display = 'none';
 
+
     	break;
 
   case 'AllVendors':
@@ -75,33 +75,20 @@ switch(Chosenoption) {//openswitch
     // code block
     console.log('Defaultvalue');
     break;	
-}//close switch
+}
 
-}//close function show the right block
+}
 
-function CreateTableFromJSON(Chosenoption) {//open function create table from JSON
-
-
-
-//Clearing residual values
-	console.log(functioncallcount);
-	functioncallcount = functioncallcount + 1;
-	for (i = 0;i < functioncallcount ;i++){//open for
-	try{	
-	document.getElementById('listcontainer').style.display = 'none';
-	console.log('The products have been cleared');
-	}catch{
-	console.log('The list is not made yet' );
-	}}//close for
+function CreateTableFromJSON(Chosenoption) {
 
 console.log(Chosenoption);
 
-switch(Chosenoption) {//openswitch
+switch(Chosenoption) {
   case 'OneProductOneVendor':
     	// code block
 	var vendorname = document.getElementById('vendor-name-input').value;
 	var productname = document.getElementById('product-name-input').value;
-	if(vendorname.length != 0 && productname.length != 0){//open if
+	if(vendorname.length != 0 && productname.length != 0){
 	var apiurl = 'https://cve.circl.lu/api/search/';
 	var newapiurl = apiurl.concat(vendorname,'/',productname);
 	}else if (vendorname.length == 0 && productname.length != 0){
@@ -110,31 +97,31 @@ switch(Chosenoption) {//openswitch
 	var newapiurl = apiurl.concat(productname);	
 	document.getElementById('vendor-name-input').value = 'Getting all known vulnerabilities for this product';
 	}else{
-	document.getElementById('vendor-name-input').value = 'Enter valid vendor(optional)';
-	document.getElementById('product-name-input').value = 'Enter valid product(must)';
-	}//close if	
+	document.getElementById('vendor-name-input').value = 'Enter valid vendor(must)';
+	document.getElementById('product-name-input').value = 'Enter valid product(optional)';
+	}	
     	break;
 
   case 'SearchWithCVEID':
     	// code block
 	var cveidinput = document.getElementById('CVEID-input').value; 
-	if(cveidinput.length != 0){//open if   	
+	if(cveidinput.length != 0){   	
 	var apiurl = 'https://cve.circl.lu/api/cve/';
 	var newapiurl = apiurl.concat(cveidinput);
 	}else{
 	document.getElementById('CVEID-input').value = 'Enter valid input';
-	}//close if	 
+	}	 
     	break;
 
   case 'AllProductsOneVendor':
     	// code block
 	var vendornameonly = document.getElementById('VendorName-input').value; 
-	if(vendornameonly.length != 0){ //open if  	
+	if(vendornameonly.length != 0){   	
 	var apiurl = 'https://cve.circl.lu/api/browse/';
 	var newapiurl = apiurl.concat(vendornameonly);
 	}else{
 	document.getElementById('VendorName-input').value = 'Enter valid input';
-	} //close if
+	} 
     	break;
 
   case 'AllVendors':
@@ -146,7 +133,7 @@ switch(Chosenoption) {//openswitch
     // code block
     console.log('Defaultvalue');
     break;	
-}//close switch
+}
 
 document.getElementById('OptionsList').style.display = "none";
 var request = new XMLHttpRequest();
@@ -164,14 +151,14 @@ request.open('GET', newapiurl, true);
 request.send(null);
 
 // progress on transfers from the server to the client (downloads)
-function updateProgress (oEvent) {//open function progress
-  if (oEvent.lengthComputable) {//open if
+function updateProgress (oEvent) {
+  if (oEvent.lengthComputable) {
     var percentComplete = oEvent.loaded / oEvent.total * 100;
     elem.style.width = percentComplete + '%' ;
   } else {
     console.log('Unable to compute progress information since the total size is unknown');
-  }//close if
-}//close function progress
+  }
+}
 function transferComplete(evt) {
   console.log("The transfer is complete.");
 }
@@ -182,23 +169,26 @@ function transferCanceled(evt) {
   console.log("The transfer has been canceled by the user.");
 }
 
-request.onload = function () {// open request on load
+request.onload = function () {
 
 // Begin accessing JSON data here
 var data = JSON.parse(this.response);
 //console.log(data.length);
 
-if (data.length == undefined && Chosenoption == 'SearchWithCVEID'){// open if undefined
+if (data.length == undefined && Chosenoption == 'SearchWithCVEID' || data.length == undefined &&  Chosenoption == 'OneProductOneVendor')	{
 
         var CVEIDtable = document.createElement("table");
 	CVEIDtable.setAttribute('class', 'table table-dark');
 	var colnames = ["Modified", "Published", "ID","Summary"];
 	var tr = CVEIDtable.insertRow(-1); 
-	for (var i = 0; i < colnames.length; i++) {// open for
+	for (var i = 0; i < colnames.length; i++) {
             var th = document.createElement("th");   
             th.innerHTML = colnames[i];
-            tr.appendChild(th);}//close for
-        
+            tr.appendChild(th);
+        }
+
+
+	if (Chosenoption == 'SearchWithCVEID'){ 
 	var tr = CVEIDtable.insertRow(-1); 
 	var tabCell2 = tr.insertCell(-1);
         tabCell2.innerHTML = data.Modified;
@@ -208,29 +198,13 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID'){// open if un
         tabCell4.innerHTML = data.id;
 	var tabCell5 = tr.insertCell(1);
         tabCell5.innerHTML = data.summary;
+	}else{
 
-	// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-        var divContainer = document.getElementById("showData4");
-        divContainer.innerHTML = "";
-        divContainer.appendChild(CVEIDtable);
- 	showresult();
-	
-	}else if(data.length == undefined &&  Chosenoption == 'OneProductOneVendor'){
-
-	var CVEIDtable = document.createElement("table");
-	CVEIDtable.setAttribute('class', 'table table-dark');
-	var colnames = ["Modified", "Published", "ID","Summary"];
-	var tr = CVEIDtable.insertRow(-1); 
-	for (var i = 0; i < colnames.length; i++) {//open for
-        var th = document.createElement("th");   
-        th.innerHTML = colnames[i];
-        tr.appendChild(th);}//close for
-
-	for (i in data.data){// open for i
+	for (i in data.data){
 	var tr2 = CVEIDtable.insertRow(-1); 
-	for (j in data.data[i]){// open for j
+	for (j in data.data[i]){
 
-	switch(j){// open switch
+	switch(j){
 
 	case 'Modified':
 
@@ -249,7 +223,6 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID'){// open if un
 			var tabCell4 = tr2.insertCell();
 			tabCell4.innerHTML = data.data[i][j];
 			break;
-
 	case 'summary':
 
 			var tabCell5 = tr2.insertCell();
@@ -259,23 +232,23 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID'){// open if un
 	default :
 			break;
  	
-	}//close switch
-	}//close for i
-	}//close for j
+	}
+	}
+	}
+	}
+	
 	// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
         var divContainer = document.getElementById("showData4");
         divContainer.innerHTML = "";
         divContainer.appendChild(CVEIDtable);
  	showresult();
-	
+
 } else if(Chosenoption == 'AllProductsOneVendor'){
 	var productsfound = 0;
-	
-	for (y in data) {// open for y
+	for (y in data) {
 
 	// Make a container element for the list
     	var listContainer = document.createElement('div');
-	listContainer.setAttribute('id', 'listcontainer');
 
     	// Add it to the page
     	document.getElementsByTagName('body')[0].appendChild(listContainer);
@@ -290,13 +263,10 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID'){// open if un
     	listContainer.appendChild(listElement);
 
     	// Set up a loop that goes through the items in listItems one at a time
-	try{
     	var numberOfListItems = data[y].length;
-	}catch{
-        document.getElementById('VendorName-input').value = 'This input could not be handled';
-	}
+	
 
-    	for (var i = 0; i < numberOfListItems; ++i) {// open for i
+    	for (var i = 0; i < numberOfListItems; ++i) {
         
 		// create an item for each one
         	var listItem = document.createElement('button');
@@ -304,7 +274,7 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID'){// open if un
 		listItem.setAttribute('class', 'list-group-item list-group-item-action');
 		
         	// Add the item text
-		if(typeof data[y] != 'string'){// open if
+		if(typeof data[y] != 'string'){
         	listItem.innerHTML = data[y][i];
 		globalvendorname = vendornameonly
 		listItem.setAttribute('value', data[y][i]);
@@ -315,12 +285,12 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID'){// open if un
 		}else{
 		//listItem.innerHTML = data[y];
 		i = numberOfListItems;
-		}//close if
+		}
 		
         	// Add listItem to the listElement
         	listElement.appendChild(listItem);
-	}//close for i
-	}//close for y
+	}
+	}
 	console.log(productsfound);	
 	var resulttext = 'Result: ';
 	document.getElementById("VendorName-input").value = resulttext.concat(productsfound , ' products found');
@@ -347,7 +317,7 @@ console.log(vendorarray.length);
     	listContainer.appendChild(listElement);
 
 
-    	for (var i = 0; i < vendorarray.length; ++i) {//open for i
+    	for (var i = 0; i < vendorarray.length; ++i) {
         
 		// create an item for each one
         	var listItem = document.createElement('button');
@@ -361,29 +331,29 @@ console.log(vendorarray.length);
 
         	// Add listItem to the listElement
         	listElement.appendChild(listItem);
-		
-	}//close for i
+		showresult();
+	}
 
 
 } else {
 
-if (data.length == 0) {//open if
+if (data.length == 0) {
 document.getElementById("vendor-name-input").value = ' O records found';
 document.getElementById("product-name-input").value = ' O records found';
 }else{
 document.getElementById("vendor-name-input").value = data.length + ' records found';
 document.getElementById("product-name-input").value = data.length + ' records found';
-}//close if
+}
 
 // EXTRACT VALUE FOR HTML HEADER. 
         var col = [];
-        for (var i = 0; i < data.length; i++) {// open for i
-            for (var key in data[i]) {//open for k
+        for (var i = 0; i < data.length; i++) {
+            for (var key in data[i]) {
                 if (col.indexOf(key) === -1) {
                     col.push(key);
                 }
-            }//close for k
-        }//close for i
+            }
+        }
 
 
 // CREATE DYNAMIC TABLE.
@@ -394,22 +364,22 @@ document.getElementById("product-name-input").value = data.length + ' records fo
 
         var tr = table.insertRow(-1);                   // TABLE ROW.
 
-        for (var i = 0; i < col.length; i++) {// open for i
+        for (var i = 0; i < col.length; i++) {
             var th = document.createElement("th");      // TABLE HEADER.
             th.innerHTML = col[i];
             tr.appendChild(th);
-        }//close for i
+        }
 
  // ADD JSON DATA TO THE TABLE AS ROWS.
-        for (var i = 0; i < data.length; i++) {//open for i
+        for (var i = 0; i < data.length; i++) {
 
             tr = table.insertRow(-1);
 
-            for (var j = 0; j < col.length; j++) {//open for j
+            for (var j = 0; j < col.length; j++) {
                 var tabCell = tr.insertCell(-1);
                 tabCell.innerHTML = data[i][col[j]];
-            }//close for j
-        } //close for i
+            }
+        } 
 
         // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
         var divContainer = document.getElementById("showData4");
@@ -417,10 +387,13 @@ document.getElementById("product-name-input").value = data.length + ' records fo
         divContainer.appendChild(table);
 	showresult();
 
-}// close if undefined 	
-}// close request on load
-}// close function create table from JSON
-function CallOneProductOneVendor(vendorname,productname){//open func
+}	
+}
+
+//request.send();
+
+}
+function CallOneProductOneVendor(vendorname,productname){
 
 document.getElementById('ProductsList').style.display = 'none';
 console.log('old elements hidden');
@@ -433,10 +406,10 @@ document.getElementById('product-name-input').value = productname;
 var globalvendorname = '';
 var globalproductname = '';
 CreateTableFromJSON('OneProductOneVendor'); 
-}//close function
+}
 
 
-function CallAllProductOneVendor(vendorname){//open function
+function CallAllProductOneVendor(vendorname){
 document.getElementById('VendorsList').style.display = 'none';
 console.log('old elements hidden');
 console.log('All product one vendor called');
@@ -444,8 +417,8 @@ console.log(vendorname);
 ShowTheRightBlock('AllProductsOneVendor');
 document.getElementById('VendorName-input').value = vendorname;
 CreateTableFromJSON('AllProductsOneVendor'); 
-}//close function
+}
 
-function showresult(){//open function
+function showresult(){
 document.getElementById('output').style.display = 'block';
-}//close function
+}

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Do i know you?</title>
+<title>CVE-Search</title>
 <script src="script.js"></script>
 <meta charset="utf-8"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
 <input type="button" value="Home" onClick="window.location.reload()" class="float-right">
+<input type="button" value="Glossary" onClick="location.href='glossary.html'" class="float-left">
 <input type="button" value="About" onclick="location.href='https://www.circl.lu/mission/';" class="float-left" id="Aboutinfobutton">
 <div class="card" style="width: 75rem;margin-right: auto; margin-left: auto;" id="DescCard">
   <img class="card-img-top" src="CVE-carousel.jpg" alt="Card image cap">
@@ -44,7 +45,7 @@
 	</div>
 
 	<input type="button" onclick="CreateTableFromJSON('OneProductOneVendor')" value="GET"/>
-    		<p id="showData"></p>
+
 </div>
 
 
@@ -61,7 +62,7 @@
 	</div>
 
 	<input type="button" onclick="CreateTableFromJSON('SearchWithCVEID')" value="GET"/>
-    	<p id="showData3"></p>
+
 </div>
 
 <div id="AllProductsOneVendor" style="display:none">
@@ -77,11 +78,11 @@
 	</div>
 
 	<input type="button" onclick="CreateTableFromJSON('AllProductsOneVendor')" value="GET"/>
-	<p id="showData2"></p>
 	
 </div>
 
-<div id="AllVendors" style="display:none">
+<div id="output" style="display:none">
+	
 	<p id="showData4"></p>
 </div>
 </div>
