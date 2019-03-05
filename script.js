@@ -200,13 +200,13 @@ if (data.length == undefined && Chosenoption == 'SearchWithCVEID'){// open if un
             tr.appendChild(th);}//close for
         
 	var tr = CVEIDtable.insertRow(-1); 
-	var tabCell2 = tr.insertCell(-1);
+	var tabCell2 = tr.insertCell();
         tabCell2.innerHTML = data.Modified;
-	var tabCell3 = tr.insertCell(0);
+	var tabCell3 = tr.insertCell();
         tabCell3.innerHTML = data.Published;
-	var tabCell4 = tr.insertCell(2);
+	var tabCell4 = tr.insertCell();
         tabCell4.innerHTML = data.id;
-	var tabCell5 = tr.insertCell(1);
+	var tabCell5 = tr.insertCell();
         tabCell5.innerHTML = data.summary;
 
 	// FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
